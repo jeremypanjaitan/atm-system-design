@@ -1,0 +1,45 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam style strictuml
+
+actor pengguna
+boundary "Menu PIN"
+control "Validasi akun"
+entity akun
+boundary "Menu Utama"
+
+activate pengguna
+
+pengguna -> "Menu PIN": memasukkan pin
+
+activate "Menu PIN"
+
+"Menu PIN" -> "Validasi akun": validasi pin akun
+
+deactivate "Menu PIN"
+
+activate "Validasi akun"
+
+"Validasi akun" -> akun: ambil data user dan pin
+"Validasi akun" -> "Validasi akun": validasi
+
+alt pin valid
+    activate "Menu Utama"
+
+    "Validasi akun" -> "Menu Utama": tampilkan menu utama
+    "Menu Utama" --> pengguna: menu utama ditampilkan
+
+    deactivate "Menu Utama"
+else tidak valid
+    alt tidak lebih dari 3x
+        "Validasi akun"-> "Menu PIN": tampilkan menu pin
+        "Menu PIN" --> pengguna: menu pin ditampilkan
+    else lebih dari 3x
+        "Validasi akun" -> "Validasi akun": blokir akun
+        "Validasi akun" -> "Menu PIN": berikan pesan error
+        "Menu PIN" --> pengguna: pesan error diberikan
+    end
+end
+@enduml

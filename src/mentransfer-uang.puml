@@ -1,0 +1,77 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam style strictuml
+
+actor pengguna
+boundary "Menu Utama"
+boundary "Menu Transfer Uang"
+control "Proses Mentransfer Uang"
+entity account
+entity balance
+entity Transaksi
+
+activate "Menu Utama"
+
+activate pengguna
+
+pengguna -> "Menu Utama": memilih menu transfer uang
+"Menu Utama" -> "Menu Transfer Uang": tampilkan form transfer uang
+
+deactivate "Menu Utama"
+activate "Menu Transfer Uang"
+
+"Menu Transfer Uang" --> pengguna: form menu transfer ditampilkan
+pengguna -> "Menu Transfer Uang": memasukkan jumlah uang
+pengguna -> "Menu Transfer Uang": memasukkan akun tujuan
+
+activate "Proses Mentransfer Uang"
+
+"Menu Transfer Uang" -> "Proses Mentransfer Uang": transfer uang ke akun tujuan
+
+activate account
+
+"Proses Mentransfer Uang"-> account: ambil data akun tujuan
+account --> "Proses Mentransfer Uang": memberikan data akun tujuan
+
+deactivate account
+
+activate balance
+
+"Proses Mentransfer Uang" -> balance: ambil data saldo pengirim
+balance --> "Proses Mentransfer Uang": memberikan data saldo pengirim
+
+
+alt saldo cukup
+group transaction
+
+"Proses Mentransfer Uang" -> balance: tambahkan saldo penerima
+balance --> "Proses Mentransfer Uang": saldo penerima ditambahkan
+"Proses Mentransfer Uang" -> balance: kurangi saldo pengirim
+balance --> "Proses Mentransfer Uang": saldo pengirim dikurangi
+activate Transaksi
+"Proses Mentransfer Uang" -> Transaksi: simpan data transksi
+deactivate Transaksi
+
+deactivate balance
+end
+
+"Proses Mentransfer Uang" -> "Menu Transfer Uang": tampilkan pesan uang berhasil dikirim
+"Menu Transfer Uang" --> pengguna: pesan uang berhasil transfer ditampilkan
+
+else saldo tidak cukup
+
+"Proses Mentransfer Uang"  -> "Menu Transfer Uang": tampilkan pesan saldo tidak cukup
+
+deactivate "Proses Mentransfer Uang"
+
+"Menu Transfer Uang" --> pengguna: pesan saldo tidak cukup dapat ditampilkan
+
+deactivate "Menu Transfer Uang"
+
+end
+
+
+
+@enduml

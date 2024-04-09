@@ -1,0 +1,38 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam style strictuml
+
+actor pengguna
+boundary "Kotak Kartu"
+control "Validasi Kartu"
+boundary "Menu PIN"
+
+activate pengguna
+pengguna -> "Kotak Kartu" : memasukkan kartu
+
+activate "Kotak Kartu"
+"Kotak Kartu" -> "Validasi Kartu" : validasi kartu
+
+activate "Validasi Kartu"
+
+alt kartu valid
+    "Validasi Kartu" -> "Menu PIN" : tampilkan
+
+    activate "Menu PIN"
+
+    "Menu PIN" --> pengguna : menu ditampilkan
+
+    deactivate "Menu PIN"
+
+else kartu tidak valid
+    "Validasi Kartu" -> "Kotak Kartu": keluarkan kartu
+
+    deactivate "Validasi Kartu"
+
+    "Kotak Kartu" --> pengguna: mengeluarkan kartu
+
+    deactivate "Kotak Kartu"
+end
+@enduml

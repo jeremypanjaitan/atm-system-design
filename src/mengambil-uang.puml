@@ -1,0 +1,60 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam style strictuml
+
+actor pengguna
+boundary "Menu Utama"
+boundary "Menu Mengambil Uang"
+control "Proses Mengambil Uang"
+entity Account
+entity Balance
+entity Transaksi
+boundary "Kotak Uang"
+
+
+activate pengguna
+activate "Menu Utama"
+pengguna -> "Menu Utama": memilih menu mengambil uang
+deactivate "Menu Utama"
+
+activate "Menu Mengambil Uang"
+
+"Menu Utama" -> "Menu Mengambil Uang": tampilkan menu mengambil uang
+"Menu Mengambil Uang" --> pengguna: menu mengambil uang beserta form  ditampilkan
+
+pengguna -> "Menu Mengambil Uang": memasukkan nominal uang yang akan diambil
+activate "Proses Mengambil Uang"
+"Menu Mengambil Uang" -> "Proses Mengambil Uang": ambil uang
+activate Account
+"Proses Mengambil Uang"-> Account: ambil data akun
+Account --> "Proses Mengambil Uang": memberikan data akun
+deactivate Account
+activate Balance
+"Proses Mengambil Uang" -> Balance: ambil data saldo
+Balance --> "Proses Mengambil Uang": memberikan data saldo
+
+alt saldo cukup
+group transaction
+"Proses Mengambil Uang" -> Balance: kurangi saldo
+deactivate Balance
+activate Transaksi
+"Proses Mengambil Uang" -> Transaksi: simpan data transaksi
+deactivate Transaksi
+end
+"Proses Mengambil Uang" -> "Kotak Uang": keluarkan uang
+activate "Kotak Uang"
+"Kotak Uang"--> pengguna: uang dikeluarkan
+deactivate "Kotak Uang"
+else saldo tidak cukup
+"Proses Mengambil Uang" -> "Menu Mengambil Uang": tampilkan pesan saldo tidak cukup
+deactivate "Proses Mengambil Uang"
+"Menu Mengambil Uang" --> pengguna: pesan saldo tidak cukup di tampilkan
+end
+
+
+
+
+
+@enduml

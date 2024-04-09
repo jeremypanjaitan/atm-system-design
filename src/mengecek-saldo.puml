@@ -1,0 +1,51 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam style strictuml
+
+actor pengguna
+boundary "Menu Utama"
+boundary "Menu Cek Saldo"
+control "Proses Mengecek Saldo"
+entity "Akun"
+entity "Saldo"
+
+activate pengguna
+
+pengguna -> "Menu Utama": memilih menu cek saldo
+
+activate "Menu Cek Saldo"
+
+"Menu Utama" -> "Menu Cek Saldo": tampilkan menu cek saldo
+
+activate "Menu Utama"
+
+"Menu Cek Saldo" -> "Proses Mengecek Saldo": lihat saldo
+
+deactivate "Menu Utama"
+
+activate "Proses Mengecek Saldo"
+
+activate "Akun"
+
+"Proses Mengecek Saldo" -> "Akun": mengambil data akun
+"Akun" --> "Proses Mengecek Saldo" : mengembalikan data akun
+
+deactivate "Akun"
+
+activate "Saldo"
+
+"Proses Mengecek Saldo" -> "Saldo": meminta data saldo
+"Saldo" --> "Proses Mengecek Saldo": mengembalikan data saldo
+
+deactivate "Saldo"
+
+"Proses Mengecek Saldo" --> "Menu Cek Saldo": memberikan data saldo
+"Menu Cek Saldo" --> pengguna: menampilkan data saldo
+
+deactivate "Menu Cek Saldo"
+
+
+
+@enduml

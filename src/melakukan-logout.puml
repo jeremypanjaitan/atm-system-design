@@ -1,0 +1,38 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam style strictuml
+
+actor pengguna
+boundary "Menu Utama"
+boundary "Menu Logout"
+control "Proses Logout"
+boundary "Kotak Kuitansi"
+boundary "Kotak Kartu"
+
+activate pengguna
+activate "Menu Utama"
+pengguna -> "Menu Utama": memilih untuk keluar
+activate "Menu Logout"
+"Menu Utama" -> "Menu Logout": tampilkan menu logout
+deactivate "Menu Utama"
+activate "Proses Logout"
+"Menu Logout" -> "Proses Logout": logout
+activate "Kotak Kuitansi"
+"Proses Logout" -> "Kotak Kuitansi": cetak kuitansi
+deactivate "Proses Logout"
+"Kotak Kuitansi" --> pengguna: kuitansi di keluarkan
+deactivate "Kotak Kuitansi"
+"Proses Logout" -> "Kotak Kartu": keluarkan kartu
+activate "Kotak Kartu"
+"Kotak Kartu" --> pengguna: kartu dikeluarkan
+deactivate "Kotak Kartu"
+
+
+
+
+
+
+
+@enduml
